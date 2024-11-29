@@ -1,24 +1,37 @@
-import React, { useState } from 'react';
-import { evaluateExpression } from '../utils/expressionEvaluator';
+import React, { useState, useEffect } from 'react';
 import { FaQuestion } from 'react-icons/fa';
+import { evaluateExpression } from '../utils/expressionEvaluator';
 
 const ExpressionEvaluator = ({ expression, variables }) => {
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState(() => 
+    Object.fromEntries(variables.map(v => [v, undefined]))
+  );
   const [result, setResult] = useState(null);
 
+  useEffect(() => {
+    // Reiniciar valores cuando cambian las variables
+    setValues(Object.fromEntries(variables.map(v => [v, undefined])));
+    setResult(null);
+  }, [variables]);
+
   const handleToggleValue = (variable) => {
-    setValues(prev => ({
-      ...prev,
-      [variable]: !prev[variable]
-    }));
+    setValues(prev => {
+      const newValues = {
+        ...prev,
+        [variable]: prev[variable] === undefined ? true : !prev[variable]
+      };
+      return newValues;
+    });
   };
 
   const handleEvaluate = () => {
-    if (Object.keys(values).length === variables.length) {
+    if (!Object.values(values).includes(undefined)) {
       const evaluationResult = evaluateExpression(expression, values);
       setResult(evaluationResult);
     }
   };
+
+  const allValuesSet = !Object.values(values).includes(undefined);
 
   return (
     <div className="bg-white p-4 rounded-lg shadow mt-4">
@@ -52,9 +65,9 @@ const ExpressionEvaluator = ({ expression, variables }) => {
       <div className="flex items-center gap-4">
         <button
           onClick={handleEvaluate}
-          disabled={Object.keys(values).length !== variables.length}
+          disabled={!allValuesSet}
           className={`px-4 py-2 rounded-md transition-colors ${
-            Object.keys(values).length === variables.length
+            allValuesSet
               ? 'bg-gray-900 text-white hover:bg-gray-800'
               : 'bg-gray-200 text-gray-500 cursor-not-allowed'
           }`}

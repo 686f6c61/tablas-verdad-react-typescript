@@ -60,6 +60,11 @@ const TruthTable = ({ expression, combinations }) => {
       <table className="min-w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
+            {results.length > 0 && (
+              <th className="border border-gray-300 px-4 py-2 w-16">
+                #
+              </th>
+            )}
             {usedVariables.map((name) => (
               <th key={name} className="border border-gray-300 px-4 py-2">
                 {name}
@@ -75,6 +80,11 @@ const TruthTable = ({ expression, combinations }) => {
             const result = results[rowIndex];
             return (
               <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                {results.length > 0 && (
+                  <td className="border border-gray-300 px-4 py-2 text-center text-gray-600">
+                    {rowIndex + 1}
+                  </td>
+                )}
                 {combination.map((value, colIndex) => (
                   <td key={colIndex} className="border border-gray-300 px-4 py-2 text-center">
                     {value ? 'V' : 'F'}

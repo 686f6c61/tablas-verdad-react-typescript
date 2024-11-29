@@ -9,6 +9,33 @@ const operators = {
   '→': (a, b) => !a || b
 };
 
+const evaluateSubExpression = (expr) => {
+  let result = expr;
+
+  // Evaluar NOT (¬) primero
+  while (result.includes('¬')) {
+    result = result.replace(/¬([01])/g, (_, value) => {
+      return operators['¬'](value === '1') ? '1' : '0';
+    });
+  }
+
+  // Evaluar operadores binarios en orden de precedencia
+  const operatorOrder = ['∧', '∨', '⊼', '⊽', '⊕', '↔', '→'];
+  
+  for (const operator of operatorOrder) {
+    const regex = new RegExp(`([01])\\${operator}([01])`, 'g');
+    while (result.match(regex)) {
+      result = result.replace(regex, (_, a, b) => {
+        const valA = a === '1';
+        const valB = b === '1';
+        return operators[operator](valA, valB) ? '1' : '0';
+      });
+    }
+  }
+
+  return result === '1';
+};
+
 export const evaluateExpression = (expression, values) => {
   if (!expression) return false;
 
@@ -16,26 +43,16 @@ export const evaluateExpression = (expression, values) => {
 
   // Reemplazar variables con sus valores
   Object.entries(values).forEach(([variable, value]) => {
-    result = result.replaceAll(variable, value ? '1' : '0');
+    const regex = new RegExp(`\\b${variable}\\b`, 'g');
+    result = result.replace(regex, value ? '1' : '0');
   });
 
-  // Evaluar NOT (¬)
-  while (result.includes('¬')) {
-    result = result.replace(/¬(1|0)/g, (match, value) => 
-      operators['¬'](value === '1') ? '1' : '0'
-    );
+  // Evaluar paréntesis primero
+  while (result.includes('(')) {
+    result = result.replace(/\(([^()]+)\)/g, (_, subExpr) => {
+      return evaluateSubExpression(subExpr) ? '1' : '0';
+    });
   }
 
-  // Evaluar operadores binarios
-  Object.entries(operators).forEach(([symbol, operation]) => {
-    if (symbol === '¬') return; // NOT ya fue evaluado
-    const regex = new RegExp(`(1|0)\\${symbol}(1|0)`, 'g');
-    while (result.match(regex)) {
-      result = result.replace(regex, (match, a, b) => 
-        operation(a === '1', b === '1') ? '1' : '0'
-      );
-    }
-  });
-
-  return result === '1';
+  return evaluateSubExpression(result);
 };

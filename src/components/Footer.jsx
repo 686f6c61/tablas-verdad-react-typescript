@@ -10,7 +10,6 @@ const Footer = () => {
         <span className="flex items-center space-x-2">
           <span>Powered by</span>
           <SiTypescript className="text-gray-900 w-5 h-5" />
-          <span>&</span>
           <SiReact className="text-gray-900 w-5 h-5" />
         </span>
       </div>
