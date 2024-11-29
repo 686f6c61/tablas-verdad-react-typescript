@@ -13,7 +13,7 @@ const Header = () => {
           </h1>
         </Link>
         <a
-          href="https://github.com"
+          href="https://github.com/686f6c61/tablas-verdad-react-typescript"
           target="_blank"
           rel="noopener noreferrer"
           className="text-gray-700 hover:text-gray-900 transition-colors"
