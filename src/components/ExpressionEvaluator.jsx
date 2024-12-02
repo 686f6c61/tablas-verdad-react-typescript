@@ -1,29 +1,52 @@
+/**
+ * @fileoverview Componente evaluador de expresiones lógicas para casos específicos
+ */
+
 import React, { useState, useEffect } from 'react';
 import { FaQuestion } from 'react-icons/fa';
 import { evaluateExpression } from '../utils/expressionEvaluator';
 
+/**
+ * Componente que permite evaluar una expresión lógica con valores específicos.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente
+ * @param {string} props.expression - Expresión lógica a evaluar
+ * @param {string[]} props.variables - Array de variables en la expresión
+ * 
+ * @example
+ * <ExpressionEvaluator 
+ *   expression="p ∧ q" 
+ *   variables={['p', 'q']} 
+ * />
+ */
 const ExpressionEvaluator = ({ expression, variables }) => {
+  // Estado inicial para los valores de las variables
   const [values, setValues] = useState(() => 
     Object.fromEntries(variables.map(v => [v, undefined]))
   );
   const [result, setResult] = useState(null);
 
+  // Reiniciar valores cuando cambian las variables
   useEffect(() => {
-    // Reiniciar valores cuando cambian las variables
     setValues(Object.fromEntries(variables.map(v => [v, undefined])));
     setResult(null);
   }, [variables]);
 
+  /**
+   * Alterna el valor de una variable entre verdadero y falso
+   * @param {string} variable - Nombre de la variable a alternar
+   */
   const handleToggleValue = (variable) => {
-    setValues(prev => {
-      const newValues = {
-        ...prev,
-        [variable]: prev[variable] === undefined ? true : !prev[variable]
-      };
-      return newValues;
-    });
+    setValues(prev => ({
+      ...prev,
+      [variable]: prev[variable] === undefined ? true : !prev[variable]
+    }));
   };
 
+  /**
+   * Evalúa la expresión con los valores actuales
+   */
   const handleEvaluate = () => {
     if (!Object.values(values).includes(undefined)) {
       const evaluationResult = evaluateExpression(expression, values);
@@ -35,6 +58,7 @@ const ExpressionEvaluator = ({ expression, variables }) => {
 
   return (
     <div className="bg-white p-4 rounded-lg shadow mt-4">
+      {/* Encabezado */}
       <div className="flex items-center space-x-2 mb-3">
         <FaQuestion className="text-xl text-gray-700" />
         <h3 className="text-lg font-semibold">Evaluador de casos específicos</h3>
@@ -44,6 +68,7 @@ const ExpressionEvaluator = ({ expression, variables }) => {
         Selecciona los valores para cada variable y evalúa el resultado
       </p>
 
+      {/* Botones de variables */}
       <div className="flex flex-wrap gap-3 mb-4">
         {variables.map(variable => (
           <button
@@ -62,6 +87,7 @@ const ExpressionEvaluator = ({ expression, variables }) => {
         ))}
       </div>
 
+      {/* Botón de evaluación y resultado */}
       <div className="flex items-center gap-4">
         <button
           onClick={handleEvaluate}

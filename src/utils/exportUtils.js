@@ -1,8 +1,17 @@
+/**
+ * @fileoverview Utilidades para exportar tablas de verdad en formatos TXT y PDF
+ */
+
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
+/**
+ * Formatea una expresión lógica reemplazando símbolos por texto legible.
+ * 
+ * @param {string} expression - Expresión lógica con símbolos
+ * @returns {string} Expresión formateada con operadores en texto
+ */
 const formatExpression = (expression) => {
-  // Asegurarse de que los operadores lógicos se muestren correctamente
   return expression
     .replace(/∧/g, ' AND ')
     .replace(/∨/g, ' OR ')
@@ -14,11 +23,25 @@ const formatExpression = (expression) => {
     .replace(/→/g, ' → ');
 };
 
+/**
+ * Crea el encabezado del documento con fecha y proposición.
+ * 
+ * @param {string} text - Texto de la proposición
+ * @returns {string} Encabezado formateado
+ */
 const createHeader = (text) => {
   const date = new Date().toLocaleDateString('es-ES');
   return `tabla de verdad - ${date}\n\nproposición: ${text}\n\n`;
 };
 
+/**
+ * Exporta una tabla de verdad a un archivo de texto.
+ * 
+ * @param {string} expression - Expresión lógica original
+ * @param {string[]} variables - Array de variables utilizadas
+ * @param {boolean[][]} combinations - Matriz de combinaciones de valores
+ * @param {boolean[]} results - Array de resultados
+ */
 export const exportToTxt = (expression, variables, combinations, results) => {
   const formattedExpression = formatExpression(expression);
   let content = createHeader(formattedExpression);
@@ -28,7 +51,7 @@ export const exportToTxt = (expression, variables, combinations, results) => {
   content += header.join('\t') + '\n';
   content += '-'.repeat(header.length * 8) + '\n';
 
-  // Agregar filas
+  // Agregar filas con valores V/F
   combinations.forEach((combination, index) => {
     const row = [
       ...combination.map(v => v ? 'V' : 'F'),
@@ -47,32 +70,37 @@ export const exportToTxt = (expression, variables, combinations, results) => {
   window.URL.revokeObjectURL(url);
 };
 
+/**
+ * Exporta una tabla de verdad a un archivo PDF.
+ * 
+ * @param {string} expression - Expresión lógica original
+ * @param {string[]} variables - Array de variables utilizadas
+ * @param {boolean[][]} combinations - Matriz de combinaciones de valores
+ * @param {boolean[]} results - Array de resultados
+ */
 export const exportToPdf = (expression, variables, combinations, results) => {
   const doc = new jsPDF();
   const formattedExpression = formatExpression(expression);
 
-  // Configurar fuente para soportar caracteres especiales
+  // Configuración inicial del documento
   doc.setFont('helvetica');
-  
-  // Título
   doc.setFontSize(16);
   doc.text('tabla de verdad', 14, 20);
   
-  // Proposición
+  // Agregar proposición con manejo de texto largo
   doc.setFontSize(12);
   const propositionText = `proposición: ${formattedExpression}`;
-  
-  // Dividir el texto largo en múltiples líneas si es necesario
   const splitText = doc.splitTextToSize(propositionText, 180);
   doc.text(splitText, 14, 30);
 
-  // Crear tabla
+  // Preparar datos de la tabla
   const header = [...variables, 'resultado'];
   const data = combinations.map((combination, index) => [
     ...combination.map(v => v ? 'V' : 'F'),
     results[index] ? 'V' : 'F'
   ]);
 
+  // Configurar y generar tabla
   doc.autoTable({
     startY: 40 + (splitText.length * 10),
     head: [header],

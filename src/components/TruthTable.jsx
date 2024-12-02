@@ -1,13 +1,36 @@
+/**
+ * @fileoverview Componente para mostrar y exportar tablas de verdad
+ */
+
 import React, { useState, useEffect } from 'react';
 import { evaluateExpression } from '../utils/expressionEvaluator';
 import { extractVariables } from '../utils/logicOperations';
 import { exportToTxt, exportToPdf } from '../utils/exportUtils';
 import ExpressionEvaluator from './ExpressionEvaluator';
 
+/**
+ * Componente que genera y muestra una tabla de verdad para una expresión lógica.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente
+ * @param {string} props.expression - Expresión lógica a evaluar
+ * @param {boolean[][]} props.combinations - Matriz de combinaciones de valores de verdad
+ * 
+ * @example
+ * <TruthTable 
+ *   expression="p ∧ q" 
+ *   combinations={[[true, true], [true, false], [false, true], [false, false]]}
+ * />
+ */
 const TruthTable = ({ expression, combinations }) => {
   const usedVariables = extractVariables(expression);
   const [results, setResults] = useState([]);
 
+  /**
+   * Evalúa una combinación específica de valores de verdad
+   * @param {boolean[]} combination - Array de valores booleanos
+   * @returns {boolean} Resultado de la evaluación
+   */
   const evaluateRow = (combination) => {
     const values = {};
     usedVariables.forEach((name, index) => {
@@ -16,6 +39,7 @@ const TruthTable = ({ expression, combinations }) => {
     return evaluateExpression(expression, values);
   };
 
+  // Actualizar resultados cuando cambian las combinaciones o la expresión
   useEffect(() => {
     if (combinations && combinations.length > 0) {
       const newResults = combinations.map(evaluateRow);
@@ -23,6 +47,10 @@ const TruthTable = ({ expression, combinations }) => {
     }
   }, [combinations, expression]);
 
+  /**
+   * Maneja la exportación de la tabla en diferentes formatos
+   * @param {'txt' | 'pdf'} format - Formato de exportación
+   */
   const handleExport = (format) => {
     if (format === 'txt') {
       exportToTxt(expression, usedVariables, combinations, results);
@@ -37,6 +65,7 @@ const TruthTable = ({ expression, combinations }) => {
 
   return (
     <div className="overflow-x-auto">
+      {/* Encabezado y botones de exportación */}
       <div className="mb-4">
         <h3 className="text-lg font-semibold">Expresión a evaluar:</h3>
         <p className="font-mono text-xl mt-2 p-2 bg-gray-100 rounded">{expression}</p>
@@ -57,6 +86,7 @@ const TruthTable = ({ expression, combinations }) => {
         </div>
       </div>
       
+      {/* Tabla de verdad */}
       <table className="min-w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
