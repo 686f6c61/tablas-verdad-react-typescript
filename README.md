@@ -1,6 +1,9 @@
 # Generador de tablas de verdad - UNIPRO
 
-Una aplicación web interactiva para generar y analizar tablas de verdad de expresiones lógicas. Perfecta para estudiantes y profesores de lógica matemática.
+Una aplicación web interactiva para generar y analizar tablas de verdad de expresiones lógicas. Perfecta para estudiantes.
+
+![Tabla 1](img/tablas.png "Tablas de verdad")
+
 
 ## Características
 
@@ -25,6 +28,9 @@ Una aplicación web interactiva para generar y analizar tablas de verdad de expr
   - Exportación a PDF con formato profesional
   - Exportación a TXT para análisis posterior
   - Inclusión de metadatos y fecha de generación
+ 
+![Tabla 1](img/tablas02.png "Tablas de verdad")
+
 
 ## Tecnologías utilizadas
 
