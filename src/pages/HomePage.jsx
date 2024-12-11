@@ -1,23 +1,11 @@
-/**
- * @fileoverview Página de inicio de la aplicación Mr. Wolff
- */
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaTable } from 'react-icons/fa';
+import { FaTable, FaBook } from 'react-icons/fa';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 
-/**
- * Componente de la página de inicio.
- * Muestra el título de la aplicación y enlaces a las diferentes herramientas disponibles.
- * 
- * @component
- * @returns {JSX.Element} Página de inicio
- */
 function HomePage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
-      {/* Encabezado con título y descripción */}
       <div className="text-center mb-12">
         <div className="flex justify-center items-center space-x-4 mb-4">
           <UserCircleIcon className="h-16 w-16 text-gray-800" />
@@ -28,9 +16,22 @@ function HomePage() {
         </p>
       </div>
 
-      {/* Grid de herramientas disponibles */}
-      <div className="grid md:grid-cols-1 gap-8 max-w-4xl mx-auto">
-        {/* Enlace a la herramienta de tablas de verdad */}
+      <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <Link
+          to="/theory"
+          className="block p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+        >
+          <div className="flex items-center space-x-4">
+            <FaBook className="text-4xl text-gray-700" />
+            <div>
+              <h2 className="text-2xl font-semibold mb-2">Teoría</h2>
+              <p className="text-gray-600">
+                Aprende los fundamentos de la lógica proposicional
+              </p>
+            </div>
+          </div>
+        </Link>
+
         <Link
           to="/truth-tables"
           className="block p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow"

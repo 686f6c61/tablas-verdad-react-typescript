@@ -1,8 +1,3 @@
-/**
- * @fileoverview Página de resolución de sistemas de ecuaciones por eliminación Gaussiana
- * @status DEPRECATED - Este componente no está actualmente en uso
- */
-
 import React, { useState } from 'react';
 import VariableSelector from '../components/gaussian/VariableSelector';
 import MatrixInput from '../components/gaussian/MatrixInput';
@@ -11,12 +6,7 @@ import GaussianQA from '../components/gaussian/GaussianQA';
 import { FaCalculator } from 'react-icons/fa';
 import { solveGaussianElimination } from '../utils/gaussianElimination';
 
-/**
- * Componente para la resolución de sistemas de ecuaciones lineales.
- * @deprecated Este componente no está actualmente en uso y requiere revisión
- */
 function GaussianEliminationPage() {
-  // Estados para el manejo del sistema de ecuaciones
   const [numVariables, setNumVariables] = useState(0);
   const [variableStyle, setVariableStyle] = useState('x');
   const [matrix, setMatrix] = useState([]);
@@ -25,10 +15,6 @@ function GaussianEliminationPage() {
   const [solution, setSolution] = useState(null);
   const [error, setError] = useState('');
 
-  /**
-   * Maneja la resolución del sistema de ecuaciones
-   * @deprecated Función no utilizada actualmente
-   */
   const handleSolve = () => {
     setError('');
     
@@ -71,7 +57,6 @@ function GaussianEliminationPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Encabezado */}
       <div className="text-center mb-8">
         <div className="flex items-center justify-center space-x-3 mb-4">
           <FaCalculator className="text-3xl text-gray-700" />
@@ -82,7 +67,6 @@ function GaussianEliminationPage() {
         </p>
       </div>
 
-      {/* Selector de variables o entrada de matriz */}
       {!numVariables ? (
         <VariableSelector 
           onSelectVariables={setNumVariables}
@@ -99,14 +83,12 @@ function GaussianEliminationPage() {
             onConstantsChange={setConstants}
           />
           
-          {/* Mensaje de error */}
           {error && (
             <div className="max-w-4xl mx-auto mt-4 p-4 bg-red-100 text-red-700 rounded-lg">
               {error}
             </div>
           )}
           
-          {/* Botón de resolución */}
           <div className="text-center mt-6">
             <button
               onClick={handleSolve}
@@ -116,7 +98,6 @@ function GaussianEliminationPage() {
             </button>
           </div>
 
-          {/* Pasos de solución y Q&A */}
           {steps.length > 0 && (
             <>
               <SolutionSteps 

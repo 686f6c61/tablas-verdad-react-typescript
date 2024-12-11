@@ -1,29 +1,14 @@
-/**
- * @fileoverview Evaluador de expresiones lógicas con soporte para múltiples operadores
- */
-
-/**
- * Diccionario de operadores lógicos y sus implementaciones.
- * @const {Object.<string, function>}
- */
 const operators = {
-  '∧': (a, b) => a && b,      // AND
-  '∨': (a, b) => a || b,      // OR
-  '¬': (a) => !a,             // NOT
-  '⊼': (a, b) => !(a && b),   // NAND
-  '⊽': (a, b) => !(a || b),   // NOR
-  '⊕': (a, b) => a !== b,     // XOR
-  '↔': (a, b) => a === b,     // XNOR/Equivalencia
-  '→': (a, b) => !a || b      // Implicación
+  '∧': (a, b) => a && b,
+  '∨': (a, b) => a || b,
+  '¬': (a) => !a,
+  '⊼': (a, b) => !(a && b),
+  '⊽': (a, b) => !(a || b),
+  '⊕': (a, b) => a !== b,
+  '↔': (a, b) => a === b,
+  '→': (a, b) => !a || b
 };
 
-/**
- * Evalúa una subexpresión que solo contiene valores binarios y operadores.
- * Aplica los operadores en orden de precedencia correcto.
- * 
- * @param {string} expr - Subexpresión a evaluar
- * @returns {boolean} Resultado de la evaluación
- */
 const evaluateSubExpression = (expr) => {
   let result = expr;
 
@@ -51,17 +36,6 @@ const evaluateSubExpression = (expr) => {
   return result === '1';
 };
 
-/**
- * Evalúa una expresión lógica completa con variables y paréntesis.
- * 
- * @param {string} expression - Expresión lógica a evaluar
- * @param {Object.<string, boolean>} values - Objeto con los valores de las variables
- * @returns {boolean} Resultado de la evaluación
- * 
- * @example
- * evaluateExpression('p ∧ (q ∨ r)', { p: true, q: false, r: true }) // returns true
- * evaluateExpression('p → q', { p: true, q: false }) // returns false
- */
 export const evaluateExpression = (expression, values) => {
   if (!expression) return false;
 

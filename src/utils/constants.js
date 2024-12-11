@@ -1,11 +1,3 @@
-/**
- * @fileoverview Constantes para operadores lógicos, variables y paréntesis
- */
-
-/**
- * Diccionario de operadores lógicos con sus nombres y descripciones.
- * @const {Object.<string, {name: string, description: string}>}
- */
 export const OPERATORS = {
   '∧': { name: 'AND', description: 'Verdadero solo si ambos operandos son verdaderos' },
   '∨': { name: 'OR', description: 'Verdadero si al menos un operando es verdadero' },
@@ -17,16 +9,8 @@ export const OPERATORS = {
   '→': { name: 'IMPLICATION', description: 'Falso solo si el antecedente es verdadero y el consecuente falso' }
 };
 
-/**
- * Lista de variables permitidas en las expresiones lógicas.
- * @const {string[]}
- */
 export const VARIABLES = ['p', 'q', 'r', 'x', 'y', 'z'];
 
-/**
- * Definición de paréntesis y sus descripciones.
- * @const {Array.<{symbol: string, description: string}>}
- */
 export const PARENTHESES = [
   { symbol: '(', description: 'Abre un grupo de operaciones' },
   { symbol: ')', description: 'Cierra un grupo de operaciones' }

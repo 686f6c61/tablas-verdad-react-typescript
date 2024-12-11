@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import TruthTablesPage from './pages/TruthTablesPage';
+import TheoryPage from './pages/TheoryPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/truth-tables" element={<TruthTablesPage />} />
+            <Route path="/theory" element={<TheoryPage />} />
           </Routes>
         </main>
         <Footer />

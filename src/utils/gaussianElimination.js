@@ -1,20 +1,5 @@
 import { Fraction } from './fractionUtils';
 
-/**
- * @fileoverview Implementación del método de eliminación Gaussiana para sistemas de ecuaciones lineales
- * @status DEPRECATED - Este módulo no está actualmente en uso y requiere revisión
- */
-
-/**
- * Resuelve un sistema de ecuaciones lineales usando el método de eliminación Gaussiana.
- * Incluye pivoteo parcial y manejo de casos especiales.
- * 
- * @param {number[][]} matrix - Matriz de coeficientes del sistema
- * @param {number[]} constants - Vector de términos independientes
- * @returns {Object} Objeto con los pasos de resolución y la solución final
- * @throws {Error} Si el sistema no tiene solución única, es inconsistente o tiene infinitas soluciones
- * @deprecated Esta función no está actualmente en uso y necesita revisión
- */
 export const solveGaussianElimination = (matrix, constants) => {
   const n = matrix.length;
   const augmentedMatrix = matrix.map((row, i) => [

@@ -1,28 +1,13 @@
-/**
- * @fileoverview Página principal para la generación de tablas de verdad
- */
-
 import React, { useState, useEffect } from 'react';
 import ExpressionEditor from '../components/ExpressionEditor';
 import TruthTable from '../components/TruthTable';
 import { generateCombinations, extractVariables } from '../utils/logicOperations';
 
-/**
- * Componente principal para la generación y visualización de tablas de verdad.
- * Permite a los usuarios crear expresiones lógicas y ver sus resultados.
- * 
- * @component
- * @returns {JSX.Element} Página de tablas de verdad
- */
 function TruthTablesPage() {
-  // Estados para manejar la expresión y sus resultados
   const [expression, setExpression] = useState('');
   const [showTable, setShowTable] = useState(false);
   const [combinations, setCombinations] = useState([]);
 
-  /**
-   * Efecto para generar combinaciones cuando cambia la expresión
-   */
   useEffect(() => {
     if (expression) {
       const variables = extractVariables(expression);
@@ -30,9 +15,6 @@ function TruthTablesPage() {
     }
   }, [expression]);
 
-  /**
-   * Manejador para mostrar la tabla de verdad
-   */
   const handleGenerate = () => {
     if (expression.trim()) {
       setShowTable(true);
@@ -41,10 +23,8 @@ function TruthTablesPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 pb-8">
-      {/* Editor de expresiones */}
       <ExpressionEditor onExpressionChange={setExpression} />
       
-      {/* Botón para generar tabla */}
       <div className="text-center mb-8">
         <button
           onClick={handleGenerate}
@@ -59,7 +39,6 @@ function TruthTablesPage() {
         </button>
       </div>
       
-      {/* Tabla de verdad */}
       {showTable && combinations.length > 0 && (
         <div className="mt-8">
           <TruthTable
@@ -69,7 +48,6 @@ function TruthTablesPage() {
         </div>
       )}
 
-      {/* Sección de instrucciones */}
       <div className="mt-8 p-4 bg-white rounded-lg shadow">
         <h2 className="text-xl font-semibold mb-4">Instrucciones:</h2>
         <ul className="list-disc pl-5 space-y-2">
