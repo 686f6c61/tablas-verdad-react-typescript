@@ -97,7 +97,7 @@ Una aplicación web educativa completa para el aprendizaje de Lógica Proposicio
 
 ```bash
 # Clonar el repositorio
-git clone [url-del-repositorio]
+git clone https://github.com/686f6c61/algebra-logica.git
 
 # Instalar dependencias
 npm install
